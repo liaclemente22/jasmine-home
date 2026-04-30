@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+
+:root {
+  --background: #F5F3EF;
+  --beige: #ECE7E1;
+  --sage: #8FAF9F;
+  --darkSage: #4A5C55;
+  --textDark: #2E2E2E;
+  --muted: #6B6B6B;
+}
+
+/* Tailwind v4 theme mapping */
+@theme inline {
+  --color-background: var(--background);
+  --color-beige: var(--beige);
+  --color-sage: var(--sage);
+  --color-darkSage: var(--darkSage);
+  --color-textDark: var(--textDark);
+  --color-muted: var(--muted);
+}
+
+/* Global body styling */
+body {
+  background: var(--background);
+  color: var(--textDark);
+  font-family: var(--font-sans);
+}
+
+
+.fade-section {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fade-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
