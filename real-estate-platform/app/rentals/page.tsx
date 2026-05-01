@@ -1,12 +1,20 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import PropertyCard from "@/components/PropertyCard";
 import type { Property } from "@/data/properties";
 
 export default function RentalsPage() {
+    return (
+        <Suspense fallback={<RentalsShell />}>
+            <RentalsContent />
+        </Suspense>
+    );
+}
+
+function RentalsContent() {
     const [location, setLocation] = useState("");
     const [bedrooms, setBedrooms] = useState("");
     const [maxPrice, setMaxPrice] = useState("");
@@ -252,6 +260,17 @@ export default function RentalsPage() {
                         </div>
                     )}
                 </section>
+            </div>
+        </main>
+    );
+}
+
+function RentalsShell() {
+    return (
+        <main className="min-h-screen bg-[var(--background)] px-8 pb-24 pt-32">
+            <div className="mx-auto max-w-6xl">
+                <section className="h-80 rounded-[2.25rem] border border-[#e9dfd3] bg-[linear-gradient(180deg,rgba(255,252,247,0.95)_0%,rgba(255,248,241,0.88)_100%)] shadow-[0_24px_60px_rgba(87,74,60,0.08)]" />
+                <section className="mt-10 h-64 rounded-[2rem] border border-[#e9dfd3] bg-white shadow-[0_18px_40px_rgba(87,74,60,0.06)]" />
             </div>
         </main>
     );

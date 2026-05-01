@@ -1,9 +1,18 @@
 "use client";
 
+import { Suspense } from "react";
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function AdminLoginPage() {
+    return (
+        <Suspense fallback={<LoginShell />}>
+            <AdminLoginForm />
+        </Suspense>
+    );
+}
+
+function AdminLoginForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const next = searchParams.get("next") || "/admin/properties";
@@ -82,6 +91,14 @@ export default function AdminLoginPage() {
                     </button>
                 </form>
             </div>
+        </main>
+    );
+}
+
+function LoginShell() {
+    return (
+        <main className="flex min-h-screen items-center justify-center bg-[var(--background)] px-6 py-20">
+            <div className="h-[28rem] w-full max-w-md rounded-[2rem] border border-[#e9dfd3] bg-white shadow-[0_24px_60px_rgba(87,74,60,0.08)]" />
         </main>
     );
 }
