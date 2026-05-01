@@ -49,7 +49,8 @@ function getFallbackProperties(filters: PropertyFilters = {}) {
         fallback = fallback.filter((property) => property.bedrooms === filters.bedrooms);
     }
     if (filters.maxPrice !== undefined) {
-        fallback = fallback.filter((property) => property.price <= filters.maxPrice);
+        const maxPrice = filters.maxPrice;
+        fallback = fallback.filter((property) => property.price <= maxPrice);
     }
     if (filters.search) {
         const query = filters.search.toLowerCase();
