@@ -47,23 +47,29 @@ export async function POST(req: Request) {
         uploadPayload.set("folder", folder);
         uploadPayload.set("signature", signature);
 
-        const response = await fetch(
-            `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-            {
-                method: "POST",
-                body: uploadPayload,
-            }
-        );
+        const uploadUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
+        const response = await fetch(uploadUrl, {
+            method: "POST",
+            body: uploadPayload,
+        });
 
         const result = await response.json();
 
         if (!response.ok) {
+            console.error("Cloudinary upload failed:", {
+                status: response.status,
+                uploadUrl,
+                result,
+            });
+
             return NextResponse.json(
                 {
                     success: false,
-                    error: result?.error?.message || "Failed to upload image",
+                    error:
+                        result?.error?.message ||
+                        `Cloudinary upload failed with status ${response.status}`,
                 },
-                { status: 500 }
+                { status: response.status }
             );
         }
 
