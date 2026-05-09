@@ -32,6 +32,18 @@ export async function POST(req: Request) {
         }
 
         const { cloudName, apiKey } = getCloudinaryConfig();
+
+        if (!cloudName) {
+            console.error("Cloudinary config invalid: missing CLOUDINARY_CLOUD_NAME");
+            return NextResponse.json(
+                {
+                    success: false,
+                    error: "Cloudinary config invalid: missing CLOUDINARY_CLOUD_NAME",
+                },
+                { status: 500 }
+            );
+        }
+
         const timestamp = Math.floor(Date.now() / 1000).toString();
         const folder = `jasmine-home/properties/${propertyId || "unassigned"}`;
         const signature = signCloudinaryParams({ folder, timestamp });
