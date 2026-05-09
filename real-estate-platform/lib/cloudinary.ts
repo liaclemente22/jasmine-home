@@ -25,17 +25,23 @@ function parseCloudinaryUrl(url: string) {
 }
 
 export function getCloudinaryConfig() {
+    const cloudinaryUrl = process.env.CLOUDINARY_URL?.trim();
+    if (cloudinaryUrl) {
+        return parseCloudinaryUrl(cloudinaryUrl);
+    }
+
     const cloudName = process.env.CLOUDINARY_CLOUD_NAME?.trim();
     const apiKey = process.env.CLOUDINARY_API_KEY?.trim();
     const apiSecret = process.env.CLOUDINARY_API_SECRET?.trim();
 
     if (cloudName && apiKey && apiSecret) {
-        return { cloudName, apiKey, apiSecret };
-    }
+        if (cloudName.startsWith("cloudinary://")) {
+            throw new Error(
+                "CLOUDINARY_CLOUD_NAME must contain only the cloud name, not a full Cloudinary URL"
+            );
+        }
 
-    const cloudinaryUrl = process.env.CLOUDINARY_URL?.trim();
-    if (cloudinaryUrl) {
-        return parseCloudinaryUrl(cloudinaryUrl);
+        return { cloudName, apiKey, apiSecret };
     }
 
     return {

@@ -31,7 +31,16 @@ export async function POST(req: Request) {
             );
         }
 
-        const { cloudName, apiKey } = getCloudinaryConfig();
+        const config = getCloudinaryConfig();
+        const { cloudName, apiKey } = config;
+
+        console.log("Cloudinary runtime config:", {
+            cloudName,
+            usesCloudinaryUrl: !!process.env.CLOUDINARY_URL,
+            hasCloudNameVar: !!process.env.CLOUDINARY_CLOUD_NAME,
+            hasApiKeyVar: !!process.env.CLOUDINARY_API_KEY,
+            hasApiSecretVar: !!process.env.CLOUDINARY_API_SECRET,
+        });
 
         if (!cloudName) {
             console.error("Cloudinary config invalid: missing CLOUDINARY_CLOUD_NAME");
